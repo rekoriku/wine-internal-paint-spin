@@ -15,6 +15,9 @@ Found while profiling a Windows game build under Proton, where the window
 thread used about 550 ms of CPU a second with nothing to do, then reduced to
 the 70-line program here.
 
+Reported as [Wine bug 60732](https://bugs.winehq.org/show_bug.cgi?id=60732)
+(2026-11-09).
+
 ## Results
 
 `repro.exe <paint> <wait>` handles one window's first paint, then optionally
