@@ -22,16 +22,18 @@ triggers one internal paint and handles its `WM_PAINT`, then waits for 3
 seconds with a 100 ms timeout and counts how often the wait returned. Idle,
 that is about 30.
 
-| Case | GE-Proton 11-6 | Wine 11.0 | Wine 11.19 | Windows |
-| --- | ---: | ---: | ---: | ---: |
-| `none avail`: no internal paint (control) | 42 | 31 | 31 | see CI |
-| `defproc avail`: internal paint, `WM_PAINT` to `DefWindowProc` | **148,713** | **159,500** | **159,116** | see CI |
-| `validate avail`: internal paint, `WM_PAINT` answered with `ValidateRect` | **149,200** | **153,623** | **158,251** | see CI |
-| `defproc plain`: internal paint, wait without `MWMO_INPUTAVAILABLE` | 36 | 31 | 31 | see CI |
+| Case | GE-Proton 11-6 | Wine 11.0 | Wine 11.19 | Windows Server 2022 | Windows Server 2025 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `none avail`: no internal paint (control) | 42 | 31 | 31 | 30 | 33 |
+| `defproc avail`: internal paint, `WM_PAINT` to `DefWindowProc` | **148,713** | **159,500** | **159,116** | 30 | 33 |
+| `validate avail`: internal paint, `WM_PAINT` answered with `ValidateRect` | **149,200** | **153,623** | **158,251** | 30 | 30 |
+| `defproc plain`: internal paint, wait without `MWMO_INPUTAVAILABLE` | 36 | 31 | 31 | 30 | 31 |
 
-The Windows column comes from this repository's
-[workflow](.github/workflows/windows.yml) on GitHub's Windows Server 2022
-and 2025 runners (the Actions tab).
+On Windows the internal `WM_PAINT` is delivered once too, and the loop
+stays idle. The Windows columns come from this repository's
+[workflow](.github/workflows/windows.yml) on GitHub's runners (10.0.20348
+and 10.0.26100;
+[run 42612359336](https://github.com/rekoriku/wine-internal-paint-spin/actions/runs/42612359336)).
 
 ## Cause
 
